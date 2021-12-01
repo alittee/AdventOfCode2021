@@ -2,6 +2,6 @@
 
 # Resources
 
-coding language: PHP
-Compiler: https://www.writephponline.com/
-Json Conversion tool: https://wtools.io/convert-list-to-json-array
+coding language: PHP  
+Compiler: https://www.writephponline.com/  
+Json Conversion tool: https://wtools.io/convert-list-to-json-array  

@@ -40,6 +40,17 @@ function GetInputs() {
 	return explode(',', $inputs);
 }
 
+function GetRows($board) {
+	foreach($board as $index => $data) {
+		$str = ltrim(str_replace("  ", " ", $data));
+		$boards[$board][$index] = explode(" ", $str);
+	}
+}
+
+function GetColumns() {
+
+}
+
 function GetBoards() {
 	$max = 5;
 	$row = 0;
@@ -55,11 +66,6 @@ function GetBoards() {
 	
 	while(count($array) > $row) {
 		$boards[$board] = array_slice($array, $row, $max);
-		
-		foreach($boards[$board] as $index => $data) {
-			$str = ltrim(str_replace("  ", " ", $data));
-			$boards[$board][$index] = explode(" ", $str);
-		}
 		
 		$row += 6;
 		$board++;

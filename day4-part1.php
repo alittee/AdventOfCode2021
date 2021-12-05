@@ -4,6 +4,8 @@
 build result board? When column or row is filled then it can be located.
 */
 function Bingo($inputs, $boards) {
+	$results = array_fill(0, count($boards), 0);
+	
 	foreach($inputs as $number) {
 		foreach($boards as $board) {
 			var_dump(CheckBoard($number, $board));
@@ -11,21 +13,18 @@ function Bingo($inputs, $boards) {
 	}	
 }
 
-function CheckBoard($number, $board) {
-	/*
-	create row array
-	create column array
-	check both
-	add results
-	check if winner
-	*/
+function InitResults();
+
+function CheckBoard($number, $board) {	
+	foreach($board as $index => $row) {
+		if (in_array($number, $row))
+		{
+			$val_index = array_search($number, $row);
+			
+		}
+	}
 	
 }
-
-function CheckRow($number, $row) {
-
-}
-
 
 function GetInputs() {
 	$file = fopen("day4-inputs.txt", "r") or die("Unable to open file!");

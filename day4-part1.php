@@ -4,26 +4,32 @@
 build result board? When column or row is filled then it can be located.
 */
 function Bingo($inputs, $boards) {
-	$results = array_fill(0, count($boards), 0);
-	
-	foreach($inputs as $number) {
-		foreach($boards as $board) {
-			var_dump(CheckBoard($number, $board));
-		}
-	}	
-}
+$winner = true;
+$row = [];
+$inputs = [];
+$total = 0;
 
-function InitResults();
-
-function CheckBoard($number, $board) {	
-	foreach($board as $index => $row) {
-		if (in_array($number, $row))
-		{
-			$val_index = array_search($number, $row);
-			
-		}
-	}
-	
+foreach($inputs as $index => $number) {
+  $known[$index] = $number;
+  foreach($boards as $row) {
+    $winner = false;
+    $checker = true;
+    $count = 0;
+    while($checker === true){
+      if (in_array($row[$count], $known)) {
+        if($count =< count($row)) {
+          $winner = true;
+          $total = array_sum($row) * $row[$count];
+        }
+        $count++;
+      }
+      else
+      {
+        $checker = false;
+      }
+    }
+  }
+}	
 }
 
 function GetInputs() {

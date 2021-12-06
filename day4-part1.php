@@ -47,8 +47,12 @@ function GetRows($board) {
 	}
 }
 
-function GetColumns() {
-
+function GetColumns($board) {
+	$count = count($board);
+	for($i = 0; $i < $count; $i++) {
+		$array_fill
+		$board[$count] = ;
+	}
 }
 
 function GetBoards() {

@@ -5,10 +5,18 @@ function GetLine($coords, $v1, $v2) {
 		return $coords;
 	}
 	
+	$xy1 = ($v1 > $v2) ? $v1: $v2;
+	$xy2 = ($v1 > $v2) ? $v2: $v1;
+	
 	/*
 		add in counter for y1 to y2 and vice versa
 		perform nutty for loop here
 	*/
+	
+	while ($xy1 > $xy2) {
+		$coords[$xy2] += 1;
+		$xy2++;
+	}
 	
 	return $coords;
 }

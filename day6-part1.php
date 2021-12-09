@@ -1,6 +1,6 @@
 <?php
 function GetFish($school, $days) {
-	for ($i = 0; $i <= $days; $i++) {
+	for ($i = 0; $i < $days; $i++) {
 		$size = count($school);
 		$growth = 0;
 		
@@ -13,7 +13,7 @@ function GetFish($school, $days) {
 			}
 		}
 		
-		for ($d = 0; $d <= $growth; $d++) {
+		for ($d = 0; $d < $growth; $d++) {
 			$school[$size] = 8;
 			$size++;
 		}

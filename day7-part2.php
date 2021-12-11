@@ -14,12 +14,14 @@ function CalcFuel($input) : int
 	for($i = 0; $i < $max ; $i++){
 		$numbers = array();
 	
-		foreach($input as $int) {
+		foreach ($input as $int) {
 			$total_moves = abs($i - $int);
 			$total_fuel = 0;
-			for($f = 1; $f <= $total_moves; $f++) {
+			
+			for ($f = 1; $f <= $total_moves; $f++) {
 				$total_fuel += $f;
 			}
+			
 			$numbers[] = $total_fuel;
 		}
 		

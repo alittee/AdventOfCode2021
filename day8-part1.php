@@ -35,5 +35,4 @@ function GetCodes($codes) : int
 $inputs = GetInputs();
 
 var_dump(GetCodes($inputs));
-//GetDigit('fdgacbe');
 ?>

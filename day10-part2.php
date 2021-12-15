@@ -2,10 +2,11 @@
 
 function GetInputs() : array
 {
-	$file_name = "day10-inputs.txt";
-	$file = fopen($file_name, "r") or die("Unable to open file!");
-	$lines = explode("\n", fread($file, filesize($file_name)));
-	fclose($file);
+	//$file_name = "day10-inputs.txt";
+	//$file = fopen($file_name, "r") or die("Unable to open file!");
+	//$lines = explode("\n", fread($file, filesize($file_name)));
+	$lines = ["[({(<(())[]>[[{[]{<()<>>","[(()[<>])]({[<{<<[]>>(","{([(<{}[<>[]}>{[]{[(<()>","(((({<>}<{<{<>}{[]{[]{}","[[<[([]))<([[{}[[()]]]","[{[{({}]{}}([{[{{{}}([]","{<[[]]>}<{[{[{[]{()[[[]","[<(<(<(<{}))><([]([]()","<{([([[(<>()){}]>(<<{{","<{([{{}}[<[[[<>{}]]]>[]]"];
+  //fclose($file);
 	
 	$inputs = array();
 	
@@ -66,6 +67,7 @@ function CheckCorrupted($line) : array
 function CheckRow($lines) : int 
 {
 	$incomplete = array();
+	$complete = array();
 	$answer = 0;
 	
 	foreach($lines as $index => $line) {
@@ -74,12 +76,33 @@ function CheckRow($lines) : int
 		  $incomplete[] = $char;
 		}
 	}
+
 	
-	$answer += $incomplete[')'] * 3;
-	$answer += $incomplete[']'] * 57;
-	$answer += $incomplete['}'] * 1197;
-	$answer += $incomplete['>'] * 25137;
+	foreach($incomplete as $line) {
+	  $count = 0;
+	  foreach(array_reverse($line) as $char) {
+  	  switch($char) {
+  	    case '(':
+  	      $count += 1;
+  	      break;
+  			case '[':
+  		    $count += 2;
+  			  break;
+  			case '{':
+  		    $count += 3;
+  			  break;
+  			case '<':
+  			  $count += 4;
+  				break;
+  	  }
+  	  var_dump($count);
+  	  $count = $count * 5;
+	  }
+	  $complete[] = $count;
+	  var_dump($complete);
+	}
 	
+	var_dump($complete);
 	return $answer;
 }
 

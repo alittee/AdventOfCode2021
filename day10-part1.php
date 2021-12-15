@@ -16,49 +16,79 @@ function GetInputs() : array
 	return $inputs;
 }
 
-function CheckCorrupted($line) : bool
+function CheckCorrupted($line) : string
 {
 	$openChars = array();
+	$corrupted = null;
 	
 	foreach($line as $char) {
 		switch($char) {
 			case '(':
-				$openChar[] = $char;
+			case '[':
+			case '{':
+			case '<':
+				$openChars[] = $char;
 				break; 
 			case ')':
-				if (end($openChars) !== ')') {
-					
+				if (end($openChars) !== '(') {
+					$corrupted = $char;
+				} else {
+				  array_pop($openChars);
 				}
 				break; 
-			case '[':
-				break;
 			case ']':
-				break;
-			case '{':
+			  if (end($openChars) !== '[') {
+					$corrupted = $char;
+				} else {
+				  array_pop($openChars);
+				}
 				break;
 			case '}':
-				break;
-			case '<':
+			  if (end($openChars) !== '{') {
+					$corrupted = $char;
+				} else {
+				  array_pop($openChars);
+				}
 				break;
 			case '>':
+        if (end($openChars) !== '<') {
+					$corrupted = $char;
+				} else {
+				  array_pop($openChars);
+				}
 				break;      
 		}
+		
+		if ($corrupted !== null) {
+		  break;
+		}
 	}
+
+	return (!is_null($corrupted)) ? $corrupted: '';
 }
 
 function CheckRow($lines) : int 
 {
 	$corrupt = array();
-	foreach($lines as $line) {
-		if (count($line) % 2 == 0 && CheckCorrupted($line)) {
-			$corrupt[] = $line;
+	$answer = 0;
+	
+	foreach($lines as $index => $line) {
+		$char = CheckCorrupted($line);
+		if ($char !== '') {
+		  $corrupt[$char] += 1;
 		}
 	}
 	
-	return 0;
+	$answer += $corrupt[')'] * 3;
+	$answer += $corrupt[']'] * 57;
+	$answer += $corrupt['}'] * 1197;
+	$answer += $corrupt['>'] * 25137;
+	
+	return $answer;
 }
 
 $inputs = GetInputs();
 var_dump(CheckRow($inputs));
 
 ?>
+

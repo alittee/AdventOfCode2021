@@ -2,11 +2,11 @@
 
 function GetInputs() : array
 {
-	//$file_name = "day10-inputs.txt";
-	//$file = fopen($file_name, "r") or die("Unable to open file!");
-	//$lines = explode("\n", fread($file, filesize($file_name)));
-	$lines = ["[({(<(())[]>[[{[]{<()<>>","[(()[<>])]({[<{<<[]>>(","{([(<{}[<>[]}>{[]{[(<()>","(((({<>}<{<{<>}{[]{[]{}","[[<[([]))<([[{}[[()]]]","[{[{({}]{}}([{[{{{}}([]","{<[[]]>}<{[{[{[]{()[[[]","[<(<(<(<{}))><([]([]()","<{([([[(<>()){}]>(<<{{","<{([{{}}[<[[[<>{}]]]>[]]"];
-  //fclose($file);
+	$file_name = "day10-inputs.txt";
+	$file = fopen($file_name, "r") or die("Unable to open file!");
+	$lines = explode("\n", fread($file, filesize($file_name)));
+	//$lines = ["[({(<(())[]>[[{[]{<()<>>","[(()[<>])]({[<{<<[]>>(","{([(<{}[<>[]}>{[]{[(<()>","(((({<>}<{<{<>}{[]{[]{}","[[<[([]))<([[{}[[()]]]","[{[{({}]{}}([{[{{{}}([]","{<[[]]>}<{[{[{[]{()[[[]","[<(<(<(<{}))><([]([]()","<{([([[(<>()){}]>(<<{{","<{([{{}}[<[[[<>{}]]]>[]]"];
+  	fclose($file);
 	
 	$inputs = array();
 	
@@ -34,28 +34,28 @@ function CheckCorrupted($line) : array
 				if (end($openChars) !== '(') {
 					$corrupted = true;
 				} else {
-				  array_pop($openChars);
+					array_pop($openChars);
 				}
 				break; 
 			case ']':
-			  if (end($openChars) !== '[') {
+				if (end($openChars) !== '[') {
 					$corrupted = true;
 				} else {
-				  array_pop($openChars);
+					array_pop($openChars);
 				}
 				break;
 			case '}':
-			  if (end($openChars) !== '{') {
+				if (end($openChars) !== '{') {
 					$corrupted = true;
 				} else {
-				  array_pop($openChars);
+					array_pop($openChars);
 				}
 				break;
 			case '>':
-        if (end($openChars) !== '<') {
+				if (end($openChars) !== '<') {
 					$corrupted = true;
 				} else {
-				  array_pop($openChars);
+					array_pop($openChars);
 				}
 				break;      
 		}
@@ -73,37 +73,39 @@ function CheckRow($lines) : int
 	foreach($lines as $index => $line) {
 		$char = CheckCorrupted($line);
 		if (count($char) > 0) {
-		  $incomplete[] = $char;
+			$incomplete[] = $char;
 		}
 	}
 
 	
 	foreach($incomplete as $line) {
-	  $count = 0;
-	  foreach(array_reverse($line) as $char) {
-  	  switch($char) {
-  	    case '(':
-  	      $count += 1;
-  	      break;
-  			case '[':
-  		    $count += 2;
-  			  break;
-  			case '{':
-  		    $count += 3;
-  			  break;
-  			case '<':
-  			  $count += 4;
-  				break;
-  	  }
-  	  var_dump($count);
-  	  $count = $count * 5;
-	  }
-	  $complete[] = $count;
-	  var_dump($complete);
+	  	$count = 0;		
+		foreach(array_reverse($line) as $char) {
+			$count *= 5;
+		  	switch($char) {
+				case '(':
+					$count += 1;
+					break;
+				case '[':
+					$count += 2;
+					break;
+				case '{':
+					$count += 3;
+					break;
+				case '<':
+					$count += 4;
+					break;
+		  	}
+	  	}
+	  
+	  	$complete[] = $count;
 	}
+	rsort($complete);
+	
+	$answer = count($complete) / 2;
 	
 	var_dump($complete);
-	return $answer;
+	return $complete[$answer];
 }
 
 $inputs = GetInputs();

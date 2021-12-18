@@ -96,11 +96,12 @@ function IsFlashing($number) : bool
 	return ($number > 9);
 }
 
-function StartStepping($inputs, $steps) : int
+function StartStepping($inputs) : int
 {
+	$steps = 0;
 	$answer = 0;
 	
-	for($i = 0; $i < $steps; $i++) {
+	while($answer !== 100) {
 		$flashing = array();
 		
 		foreach($inputs as $line => $input) {
@@ -111,24 +112,25 @@ function StartStepping($inputs, $steps) : int
 		
 		$numbers = ProcessStep($inputs, $flashing, 0);
 		
-		$answer += $numbers['answer'];
+		$answer = $numbers['answer'];
 		$inputs = $numbers['inputs'];
 		
 		foreach($inputs as $line => $input) {
 			foreach($input as $position => $number) {
-				if (IsFlashing($number)) {
+				if (IsFlashing($number))
 					$inputs[$line][$position] = 0;
-				}
 			}
 		}
+		
+		$steps++;
 	}
 
-	return $answer;
+	return $steps;
 }
 
 
 $inputs = GetInputs();
-$answer = StartStepping($inputs, 100);
+$answer = StartStepping($inputs);
 var_dump($answer);
 ?>
 

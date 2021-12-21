@@ -34,13 +34,13 @@ function GetPaths($options, $caves, $cave, $count) : int
 		return $count += 1;
 	
 	if (!ctype_upper($cave) && in_array($cave, $caves))
-		return 0;
+		return $count;
 		
 	if (!ctype_upper($cave) && !in_array($cave, $caves) && $cave !== 'start')
 		$caves[] = $cave;
 	
 	foreach($options[$cave] as $char) {
-		$count = GetPaths($options, $char, $caves, $count);
+		$count = GetPaths($options, $caves, $char, $count);
 	}
 	
 	return $count;

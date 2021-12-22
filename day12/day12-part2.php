@@ -1,12 +1,13 @@
 <?php
 Class Day12 {
 	public $caves = array();
-	public $count = 0;
+	public $count;
 	public $options;
 	
 	public function __construct($data)	{
 		$inputs = $this->GetInputs($data);
 		$this->options = $this->GetOptions($inputs);
+		$this->count = 0;
 	}
 
 	public function GetInputs($lines) : array
@@ -49,12 +50,17 @@ Class Day12 {
 		} else {
 			$this->caves[$cave] = 1;
 		}
-
+    
+    if ($this->caves[$cave] > 2) {
+      $this->caves[$cave]--;
+      return false;
+    }
+    
 		if ($this->caves[$cave] < 2)
 			return true;
-	
+	  
 		foreach($this->caves as $char => $visits) {
-			$checker += ($visits === 2) ? 1 : 0 ;
+			$checker += ($visits >= 2) ? 1 : 0 ;
 			if ($visits > 2)
 				$this->caves[$char]--;
 		}
@@ -67,28 +73,31 @@ Class Day12 {
 		return true;
 	}
 
-	public function GetPaths($cave) : int
+	public function GetPaths($cave)
 	{
-		if ($cave === 'end')
-			return $this->count += 1;
-	
+	  
+		if ($cave === 'end') {
+		  $this->count += 1;
+			return;
+		}
+	  
 		if (!ctype_upper($cave) && !$this->CheckTwice($cave))
-			return $this->count;
-			
-		var_dump($cave);
+			return;
 		
 		foreach($this->options[$cave] as $char) {
-			$this->count = $this->GetPaths($char);
+			$this->GetPaths($char);
 		}
 		
+		if (!ctype_upper($cave) && $cave !== 'start')
+		  $this->caves[$cave]--;
 		
+		return;
 	}
 }
 
-$day12 = new Day12(["start-A","start-b","A-c","A-b","b-d","A-end","b-end"]);
+$day12 = new Day12(["mj-TZ","start-LY","TX-ez","uw-ez","ez-TZ","TH-vn","sb-uw","uw-LY","LY-mj","sb-TX","TH-end","end-LY","mj-start","TZ-sb","uw-RR","start-TZ","mj-TH","ez-TH","sb-end","LY-ez","TX-mt","vn-sb","uw-vn","uw-TZ"]);
+$day12->GetPaths('start');
 
-$answer = $day12->GetPaths('start');
-
-var_dump($answer);
+var_dump($day12->count);
 
 ?>

@@ -6,6 +6,8 @@ Class Day13
 	public $entry;
 	public $x_folds = array();
 	public $y_folds = array();
+	private $width = 0;
+	private $height = 0;
 	
 	public function __construct($file_name, $folds_name) {
 		$this->GetInputs($file_name);
@@ -17,10 +19,25 @@ Class Day13
 		$file = fopen($file_name, "r") or die("Unable to open file!");
 		$lines = explode("\n", fread($file, filesize($file_name)));
 		fclose($file);
-	
+		
+		$x = array();
+		$y = array();
+		
 		foreach($lines as $line) {
-			$input = explode(',', $line);
-			$this->inputs[] = array('x' => $input[0], 'y' => $input[1]);
+			$dot = explode(',', $line);
+			$x[] = $dot[0];
+			$y[] = $dot[1];
+		}
+		
+		$this->width = max($x) + 1;
+		$this->height = max($y) + 1;
+		$fill = array_fill(0, $this->width, 0);
+		
+		$this->inputs = array_fill(0, $this->height, $fill);
+		
+		foreach($lines as $line) {
+			$dot = explode(',', $line);
+			$this->inputs[$dot[1]][$dot[0]] = 1;
 		}
 	}
 	
@@ -39,6 +56,9 @@ Class Day13
 				$this->y_folds[] = $fold[1];
 			}
 		}
+		
+		sort($this->x_folds);
+		sort($this->y_folds);
 	}
 	
 	private function GetCords($x, $y)
@@ -48,12 +68,19 @@ Class Day13
 	
 	public function Part1() : int 
 	{
-	
+		// maintains doubled up dots
+		$dots = array();
+		
+		foreach($this->y_folds as $fold) {
+			$slice = array_splice($this->inputs, $fold);
+		}
+		
+		return count($dots);
 	}
 	
 }
 
 $day13 = new Day13('day13-inputs.txt', 'day13-folds.txt');
 
-var_dump($day13->inputs);
+var_dump($day13->Part1());
 ?>
